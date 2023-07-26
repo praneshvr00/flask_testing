@@ -49,7 +49,7 @@ def login():
         return loginData
     return loginError
 
-@app.route('/api/register', methods = ['POST'])
+@app.route('/api/register/', methods = ['POST'])
 def register():
     def isExist(data, email):
         for dict in data:
