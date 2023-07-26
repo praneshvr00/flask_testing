@@ -1,9 +1,15 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, json
 
 app = Flask(__name__)
 
 # Route to get all items
 
+
+register_success = {
+    "status": "SUCCESS",
+    "code": 900,
+    "message": "Registered Email successfully"
+}
 userdata = {
     "email" : "vrpranesh50@gmail.com",
     "password" : "123456"
@@ -1442,8 +1448,34 @@ def login():
         login = True
     return jsonify(login)
 
+@app.route('/api/register', methods = ['POST'])
+def register():
+    def isExist(data, email):
+        for dict in data:
+            if dict.get('email') == email:
+                return True
+        return False
+    reqData = request.get_json()
+    with open("accounts.json", "r") as file:
+        read_data = json.load(file)
+    if not isExist(read_data, reqData['email']):
+        acc = {
+            'email' : reqData['email'],
+            'password' : reqData['password']
+        }
+        with open("accounts.json", "r") as file:
+            daa = json.load(file)
+        daa.append(acc)    
+        with open("accounts.json", "w") as file:
+            json.dump(daa, file, indent=2)
+        return register_success
+    return ({"status": "ERROR",
+            "code": 910,
+            "message": "Email Exist"})
+    
+
 if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0')
+    app.run(debug=True, port=5000)
 
 
 
