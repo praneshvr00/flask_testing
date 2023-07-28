@@ -51,6 +51,9 @@ def login():
         for data in userAccount:
             if(data['email'] == responseData['email'] and data['password'] == responseData['password']):
                 print(data['email'] + ',' + data['password'])
+                loginData['data']['email'] = data['email']
+                loginData['data']['name'] = data['firstname'] + data['lastname']
+                loginData['data']['mobile_number'] = data['mobile']
                 return loginData
     return loginError
 
@@ -72,10 +75,19 @@ def register():
     with open("accounts.json", "r") as file:
         read_data = json.load(file)
     if not isExist(read_data, reqData['email']):
-        acc = {
+        try:
+            acc = {
             'email' : reqData['email'],
-            'password' : reqData['password']
-        }
+            'password' : reqData['password'],
+            'firstname' : reqData['firstname'],
+            'lastname' : reqData['lastname'],
+            'mobile' : reqData['mobile'],
+            }
+        except:
+            return ({
+                "status": "ERROR",
+                "code": 910,
+                "message": "Request doesnt have required data"})
         with open("accounts.json", "r") as file:
             daa = json.load(file)
         daa.append(acc)    
