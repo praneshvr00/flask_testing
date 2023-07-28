@@ -5,5 +5,12 @@
     "lastname": "v r",
     "mobile": "9944088876",
     "password": "12345678"
+  },
+  {
+    "email": "asd@gmail.com",
+    "firstname": "asd",
+    "lastname": "asd",
+    "mobile": "1234567890",
+    "password": "1234567890"
   }
 ]
